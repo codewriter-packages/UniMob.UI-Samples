@@ -368,8 +368,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root: {fileID: 603425699}
-  nestedContainerView: Nested Container View
-  nestedView: Nested View
+  nestedContainerView: {fileID: 7263109814478037635, guid: 9aeb9a0f4b067834fadb96e10f5a8064,
+    type: 3}
+  nestedView: {fileID: 527893058833960877, guid: ce85285bd97fb4b489b234b04be51ca1,
+    type: 3}
 --- !u!1 &1131162703
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,18 +5,18 @@ namespace Samples.NestedViews
 {
     public class NestedViewsApp : UniMobUIApp
     {
-        [SerializeField] private string nestedContainerView = default;
-        [SerializeField] private string nestedView = default;
+        [SerializeField] private GameObject nestedContainerView = default;
+        [SerializeField] private GameObject nestedView = default;
 
         protected override void Initialize()
         {
             base.Initialize();
 
             StateProvider.Register<NestedContainerWidget>(() => new NestedContainerState(
-                WidgetViewReference.Resource(nestedContainerView)
+                WidgetViewReference.FromPrefab(nestedContainerView)
             ));
             StateProvider.Register<NestedWidget>(() => new NestedState(
-                WidgetViewReference.Resource(nestedView)
+                WidgetViewReference.FromPrefab(nestedView)
             ));
         }
 
