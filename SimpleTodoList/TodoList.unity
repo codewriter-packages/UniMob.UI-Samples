@@ -268,7 +268,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 55
 --- !u!114 &603425697
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +368,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   root: {fileID: 603425699}
+  todoListViewPrefab: {fileID: 5849595734747878161, guid: 4f7dd09193beb1f429248b28a8061a02,
+    type: 3}
+  todoViewPrefab: {fileID: 3359735000002180582, guid: f8eb7914bfaa2224fbff2f27c30c0b05,
+    type: 3}
 --- !u!1 &1131162703
 GameObject:
   m_ObjectHideFlags: 0

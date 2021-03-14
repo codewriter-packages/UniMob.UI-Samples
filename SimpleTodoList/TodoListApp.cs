@@ -1,62 +1,36 @@
-using System.Linq;
+using Samples.SimpleTodoList.Presentation;
 using UniMob.UI;
-using UniMob.UI.Widgets;
 using UnityEngine;
 
 namespace Samples.SimpleTodoList
 {
     public class TodoListApp : UniMobUIApp
     {
-        private readonly TodoList _store = new TodoList();
+        [SerializeField] private GameObject todoListViewPrefab = default;
+        [SerializeField] private GameObject todoViewPrefab = default;
+
+        private readonly TodoList _todoList = new TodoList();
 
         protected override void Initialize()
         {
-            _store.Todos = _store.Todos
-                .Append(new Todo {Title = "Get Coffee"})
-                .Append(new Todo {Title = "Write simpler code"})
-                .ToArray();
+            _todoList.AddTodo("Get Coffee");
+            _todoList.AddTodo("Write simpler code");
+            _todoList.Todos[0].Finished = true;
 
-            _store.Todos[0].Finished = true;
+            StateProvider.Register<TodoListWidget>(() => new TodoListState(
+                view: WidgetViewReference.FromPrefab(todoListViewPrefab),
+                todoList: _todoList
+            ));
+
+            StateProvider.Register<TodoWidget>(() => new TodoState(
+                view: WidgetViewReference.FromPrefab(todoViewPrefab),
+                todoList: _todoList
+            ));
         }
 
         protected override Widget Build(BuildContext context)
         {
-            return new Container
-            {
-                BackgroundColor = Color.white,
-                Child = BuildTodoList(_store),
-            };
-        }
-
-        private Widget BuildTodoList(TodoList todoList)
-        {
-            return new Column
-            {
-                MainAxisSize = AxisSize.Max,
-                CrossAxisSize = AxisSize.Max,
-                Children =
-                {
-                    todoList.Todos.Select(todo => BuildTodo(todo)),
-                    new UniMobText(WidgetSize.FixedHeight(60))
-                    {
-                        Value = $"Tasks left: {todoList.UnfinishedTodoCount}",
-                        FontSize = 50,
-                    },
-                }
-            };
-        }
-
-        private Widget BuildTodo(Todo todo)
-        {
-            return new UniMobButton
-            {
-                OnClick = () => todo.Finished = !todo.Finished,
-                Child = new UniMobText(WidgetSize.FixedHeight(60))
-                {
-                    Value = $" - {todo.Title}: {(todo.Finished ? "Finished" : "Active")}",
-                    FontSize = 40,
-                }
-            };
+            return new TodoListWidget();
         }
     }
 }
