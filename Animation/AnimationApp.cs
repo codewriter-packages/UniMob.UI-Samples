@@ -20,7 +20,8 @@ namespace Samples.Animation
             _controller = new AnimationController(duration);
             _controller.Forward();
 
-            Atom.Reaction(() => _controller.Status, OnControllerStatusChanged);
+            Atom.Reaction(() => _controller.Status, OnControllerStatusChanged,
+                debugName: "AnimationApp.OnControllerStatusChanged reaction");
         }
 
         private void OnControllerStatusChanged(AnimationStatus status)
