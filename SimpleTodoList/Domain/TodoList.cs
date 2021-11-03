@@ -8,6 +8,7 @@ namespace Samples.SimpleTodoList
         [Atom] public Todo[] Todos { get; private set; } = new Todo[0];
 
         [Atom] public int UnfinishedTodoCount => Todos.Count(t => !t.Finished);
+
         [Atom] public int FinishedTodoCount => Todos.Count(t => t.Finished);
 
         public void AddTodo(string text)
@@ -20,7 +21,7 @@ namespace Samples.SimpleTodoList
             Todos = Todos.Where(it => it != todo).ToArray();
         }
 
-        public void RemoveCompletedTodos()
+        public void RemoveFinishedTodos()
         {
             Todos = Todos.Where(it => !it.Finished).ToArray();
         }

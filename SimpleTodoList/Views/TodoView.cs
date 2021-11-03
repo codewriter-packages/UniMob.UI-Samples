@@ -2,11 +2,12 @@ using UniMob.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Samples.SimpleTodoList.Presentation
+namespace Samples.SimpleTodoList.Views
 {
     public class TodoView : View<ITodoState>
     {
         [SerializeField] private Text todoText = default;
+
         [SerializeField] private Toggle completedToggle = default;
         [SerializeField] private Button deleteButton = default;
 
@@ -18,22 +19,23 @@ namespace Samples.SimpleTodoList.Presentation
             base.Awake();
 
             deleteButton.Click(() => State.Delete);
-            completedToggle.onValueChanged.AddListener(completed => State.Active = !completed);
+
+            completedToggle.onValueChanged.AddListener(completed => State.Completed = completed);
         }
 
         protected override void Render()
         {
-            todoText.color = State.Active ? activeTextColor : completedTextColor;
+            todoText.color = State.Completed ? completedTextColor : activeTextColor;
             todoText.text = State.Text;
 
-            completedToggle.isOn = !State.Active;
+            completedToggle.isOn = State.Completed;
         }
     }
 
     public interface ITodoState : IViewState
     {
         string Text { get; }
-        bool Active { get; set; }
+        bool Completed { get; set; }
 
         void Delete();
     }

@@ -1,10 +1,10 @@
 using System.Linq;
+using Samples.SimpleTodoList.Views;
 using UniMob;
 using UniMob.UI;
 using UniMob.UI.Widgets;
-using UnityEngine;
 
-namespace Samples.SimpleTodoList.Presentation
+namespace Samples.SimpleTodoList.Widgets
 {
     public class TodoListWidget : StatefulWidget
     {
@@ -19,41 +19,45 @@ namespace Samples.SimpleTodoList.Presentation
         public TodoListState(WidgetViewReference view, TodoList todoList)
         {
             View = view;
+
             _todoList = todoList;
             _todosState = CreateChild(BuildTodos);
         }
 
         public override WidgetViewReference View { get; }
 
+        [Atom] public string NewTodoText { get; set; } = string.Empty;
+        [Atom] public bool CanAddNewTodo => !string.IsNullOrWhiteSpace(NewTodoText);
         [Atom] public TodoFilterMode FilterMode { get; set; } = TodoFilterMode.All;
         [Atom] public bool CanClearCompletedTodos => _todoList.FinishedTodoCount != 0;
         [Atom] public int TodosLeft => _todoList.UnfinishedTodoCount;
         [Atom] public IState Todos => _todosState.Value;
 
-        public void AddTodo(string text)
+        public void AddNewTodo()
         {
+            if (!CanAddNewTodo)
+            {
+                return;
+            }
+
+            var text = NewTodoText;
+            NewTodoText = string.Empty;
+
             _todoList.AddTodo(text);
         }
 
         public void ClearCompletedTodos()
         {
-            _todoList.RemoveCompletedTodos();
+            if (!CanClearCompletedTodos)
+            {
+                return;
+            }
+
+            _todoList.RemoveFinishedTodos();
         }
 
         private Widget BuildTodos(BuildContext context)
         {
-            if (_todoList.Todos.Length == 0)
-            {
-                return new UniMobText(WidgetSize.Stretched)
-                {
-                    Value = "No todos",
-                    Color = Color.gray,
-                    FontSize = 30,
-                    MainAxisAlignment = MainAxisAlignment.Center,
-                    CrossAxisAlignment = CrossAxisAlignment.Center,
-                };
-            }
-
             return new ScrollList
             {
                 MainAxisAlignment = MainAxisAlignment.Start,

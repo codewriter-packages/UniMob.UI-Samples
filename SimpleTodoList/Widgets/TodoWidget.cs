@@ -1,17 +1,17 @@
+using Samples.SimpleTodoList.Views;
 using UniMob;
+using UniMob.UI;
 
-namespace Samples.SimpleTodoList.Presentation
+namespace Samples.SimpleTodoList.Widgets
 {
-    using UniMob.UI;
-
     public class TodoWidget : StatefulWidget
     {
-        public Todo Todo { get; }
-
         public TodoWidget(Todo todo)
         {
             Todo = todo;
         }
+
+        public Todo Todo { get; }
 
         public override State CreateState() => StateProvider.Of(this);
     }
@@ -23,6 +23,7 @@ namespace Samples.SimpleTodoList.Presentation
         public TodoState(WidgetViewReference view, TodoList todoList)
         {
             View = view;
+
             _todoList = todoList;
         }
 
@@ -30,10 +31,10 @@ namespace Samples.SimpleTodoList.Presentation
 
         [Atom] public string Text => Widget.Todo.Title;
 
-        [Atom] public bool Active
+        [Atom] public bool Completed
         {
-            get => !Widget.Todo.Finished;
-            set => Widget.Todo.Finished = !value;
+            get => Widget.Todo.Finished;
+            set => Widget.Todo.Finished = value;
         }
 
         public void Delete()

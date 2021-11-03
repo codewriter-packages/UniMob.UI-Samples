@@ -1,4 +1,4 @@
-using Samples.SimpleTodoList.Presentation;
+using Samples.SimpleTodoList.Widgets;
 using UniMob.UI;
 using UnityEngine;
 
