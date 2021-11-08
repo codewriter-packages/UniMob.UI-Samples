@@ -15,7 +15,7 @@ namespace Samples.SimpleSpreadsheet
 
         protected override void Initialize()
         {
-            _spreadsheet = new Spreadsheet();
+            _spreadsheet = new Spreadsheet(Lifetime);
 
             _spreadsheet.GetCell("A").Formula = "2";
             _spreadsheet.GetCell("B").Formula = "3";

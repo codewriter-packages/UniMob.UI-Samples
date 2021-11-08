@@ -1,18 +1,22 @@
 using System;
 using System.Collections.Generic;
+using UniMob;
 
 namespace Samples.SimpleSpreadsheet.Domain
 {
-    public class Spreadsheet
+    public class Spreadsheet : ILifetimeScope
     {
         private readonly Dictionary<string, SpreadsheetCell> _cells;
 
-        public Spreadsheet()
+        public Spreadsheet(Lifetime lifetime)
         {
+            Lifetime = lifetime;
             _cells = new Dictionary<string, SpreadsheetCell>();
 
             InitializeDefaultCells();
         }
+
+        public Lifetime Lifetime { get; }
 
         private void InitializeDefaultCells()
         {
@@ -20,7 +24,7 @@ namespace Samples.SimpleSpreadsheet.Domain
             for (int i = 0; i < cellCount; i++)
             {
                 var cellName = (char) ('A' + i);
-                _cells.Add(cellName.ToString(), new SpreadsheetCell(this));
+                _cells.Add(cellName.ToString(), new SpreadsheetCell(this, Lifetime));
             }
         }
 

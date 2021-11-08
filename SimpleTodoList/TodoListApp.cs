@@ -9,10 +9,11 @@ namespace Samples.SimpleTodoList
         [SerializeField] private GameObject todoListViewPrefab = default;
         [SerializeField] private GameObject todoViewPrefab = default;
 
-        private readonly TodoList _todoList = new TodoList();
+        private TodoList _todoList;
 
         protected override void Initialize()
         {
+            _todoList = new TodoList(Lifetime);
             _todoList.AddTodo("Get Coffee");
             _todoList.AddTodo("Write simpler code");
             _todoList.Todos[0].Finished = true;

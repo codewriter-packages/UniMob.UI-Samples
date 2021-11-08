@@ -4,14 +4,17 @@ using UniMob;
 
 namespace Samples.SimpleSpreadsheet.Domain
 {
-    public class SpreadsheetCell
+    public class SpreadsheetCell : ILifetimeScope
     {
         private readonly Spreadsheet _spreadsheet;
 
-        public SpreadsheetCell(Spreadsheet spreadsheet)
+        public SpreadsheetCell(Spreadsheet spreadsheet, Lifetime lifetime)
         {
             _spreadsheet = spreadsheet;
+            Lifetime = lifetime;
         }
+
+        public Lifetime Lifetime { get; }
 
         [Atom] public string Formula { get; set; } = string.Empty;
 
