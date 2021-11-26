@@ -32,8 +32,8 @@ namespace Samples.SimpleTodoList.Views
 
             clearCompletedButton.Click(() => State.ClearCompletedTodos);
 
-            newTodoInputField.onValueChanged.AddListener(text => State.NewTodoText = text);
-            newTodoInputField.onEndEdit.AddListener(_ => State.AddNewTodo());
+            newTodoInputField.onValueChanged.Bind(text => State.NewTodoText = text);
+            newTodoInputField.onEndEdit.Bind(_ => State.AddNewTodo());
         }
 
         protected override void Render()

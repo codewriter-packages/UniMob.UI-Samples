@@ -20,7 +20,7 @@ namespace Samples.SimpleTodoList.Views
 
             deleteButton.Click(() => State.Delete);
 
-            completedToggle.onValueChanged.AddListener(completed => State.Completed = completed);
+            completedToggle.onValueChanged.Bind(completed => State.Completed = completed);
         }
 
         protected override void Render()
