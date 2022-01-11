@@ -17,7 +17,7 @@ namespace Samples.Animation
 
         protected override void Initialize()
         {
-            _controller = new AnimationController(duration);
+            _controller = new AnimationController(Lifetime, duration);
             _controller.Forward();
 
             Atom.Reaction(Lifetime, () => _controller.Status, OnControllerStatusChanged,
