@@ -6,7 +6,9 @@ Samples for [UniMob.UI](https://github.com/codewriter-packages/UniMob.UI) - a de
 
 * [Hello World](./HelloWorld)
 * [Counter](./SimpleCounter)
+* [Nested Views](./NestedViews)
 * [Todo List](./SimpleTodoList)
 * [Spreadsheet](./SimpleSpreadsheet)
 * [Animation](./Animation)
 * [Navigation](./Navigation)
+* [Dismissible Dialog](./DismissibleDialog)
