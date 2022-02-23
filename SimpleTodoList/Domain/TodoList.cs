@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UniMob;
 
@@ -18,19 +19,30 @@ namespace Samples.SimpleTodoList
 
         [Atom] public int FinishedTodoCount => Todos.Count(t => t.Finished);
 
-        public void AddTodo(string text)
+        public Todo GetTodoById(Guid id)
         {
-            Todos = Todos.Append(new Todo(Lifetime) {Title = text}).ToArray();
+            return Todos.First(todo => todo.Id == id);
         }
 
-        public void RemoveTodo(Todo todo)
+        public void AddTodo(string text)
         {
-            Todos = Todos.Where(it => it != todo).ToArray();
+            var newTodoId = Guid.NewGuid();
+            var newTodo = new Todo(Lifetime, newTodoId)
+            {
+                Title = text
+            };
+
+            Todos = Todos.Append(newTodo).ToArray();
+        }
+
+        public void RemoveTodoById(Guid id)
+        {
+            Todos = Todos.Where(todo => todo.Id != id).ToArray();
         }
 
         public void RemoveFinishedTodos()
         {
-            Todos = Todos.Where(it => !it.Finished).ToArray();
+            Todos = Todos.Where(todo => !todo.Finished).ToArray();
         }
     }
 }

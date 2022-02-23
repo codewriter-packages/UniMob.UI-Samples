@@ -81,9 +81,9 @@ namespace Samples.SimpleTodoList.Widgets
 
         private Widget BuildTodo(Todo todo)
         {
-            return new TodoWidget(todo)
+            return new TodoWidget(todo.Id)
             {
-                Key = Key.Of(todo)
+                Key = Key.Of(todo.Id)
             };
         }
     }
