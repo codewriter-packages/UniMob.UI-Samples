@@ -14,3 +14,4 @@ Samples for [UniMob.UI](https://github.com/codewriter-packages/UniMob.UI) - a de
 * [Tabs](./SimpleTabs)
 * [Back Button Support](./BackButtonSupport)
 * [Dismissible Dialog](./DismissibleDialog)
+* [Dynamic Widget Size](./DynamicWidgetSize)
