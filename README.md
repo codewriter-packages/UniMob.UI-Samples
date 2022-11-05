@@ -11,4 +11,5 @@ Samples for [UniMob.UI](https://github.com/codewriter-packages/UniMob.UI) - a de
 * [Spreadsheet](./SimpleSpreadsheet)
 * [Animation](./Animation)
 * [Navigation](./Navigation)
+* [Tabs](./SimpleTabs)
 * [Dismissible Dialog](./DismissibleDialog)
