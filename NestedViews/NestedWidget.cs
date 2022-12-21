@@ -5,8 +5,6 @@ namespace Samples.NestedViews
     public class NestedWidget : StatefulWidget
     {
         public string Message { get; set; }
-
-        public override State CreateState() => StateProvider.Of(this);
     }
 
     public class NestedState : ViewState<NestedWidget>, INestedState

@@ -8,7 +8,6 @@ namespace Samples.SimpleTodoList.Widgets
 {
     public class TodoListWidget : StatefulWidget
     {
-        public override State CreateState() => StateProvider.Of(this);
     }
 
     public class TodoListState : ViewState<TodoListWidget>, ITodoListState

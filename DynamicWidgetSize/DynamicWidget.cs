@@ -7,7 +7,6 @@ namespace Samples.DynamicWidgetSize
 {
     public class DynamicWidget : StatefulWidget
     {
-        public override State CreateState() => StateProvider.Of(this);
     }
 
     public class DynamicState : ViewState<DynamicWidget>

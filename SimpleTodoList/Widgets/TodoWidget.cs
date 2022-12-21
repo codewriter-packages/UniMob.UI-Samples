@@ -13,8 +13,6 @@ namespace Samples.SimpleTodoList.Widgets
         }
 
         public Guid TodoId { get; }
-
-        public override State CreateState() => StateProvider.Of(this);
     }
 
     public class TodoState : ViewState<TodoWidget>, ITodoState

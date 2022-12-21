@@ -4,7 +4,6 @@ namespace Samples.NestedViews
 {
     public class NestedContainerWidget : StatefulWidget
     {
-        public override State CreateState() => StateProvider.Of(this);
     }
 
     public class NestedContainerState : ViewState<NestedContainerWidget>, INestedContainerState

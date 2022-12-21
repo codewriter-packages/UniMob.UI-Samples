@@ -12,8 +12,6 @@ namespace Samples.SimpleSpreadsheet.Presentation
         }
 
         public string Name { get; }
-
-        public override State CreateState() => StateProvider.Of(this);
     }
 
     public class SpreadsheetCellState : ViewState<SpreadsheetCellWidget>
