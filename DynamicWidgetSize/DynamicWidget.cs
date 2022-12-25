@@ -11,9 +11,10 @@ namespace Samples.DynamicWidgetSize
 
     public class DynamicState : ViewState<DynamicWidget>
     {
-        private readonly float detailSize = Mathf.Lerp(200, 600, Random.value);
-        private readonly Color detailColor = Color.Lerp(Color.green, Color.red, Random.value);
+        private const string Text =
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ";
 
+        private readonly string detailText;
         private readonly StateHolder detailsState;
 
         public DynamicState(WidgetViewReference view)
@@ -21,6 +22,7 @@ namespace Samples.DynamicWidgetSize
             View = view;
 
             detailsState = CreateChild(BuildItems);
+            detailText = Text.Substring(0, Random.Range(0, Text.Length));
         }
 
         [Atom] private bool DetailsVisible { get; set; }
@@ -47,10 +49,15 @@ namespace Samples.DynamicWidgetSize
                 CrossFadeState = DetailsVisible ? CrossFadeState.ShowSecond : CrossFadeState.ShowFirst,
                 Duration = 0.2f,
                 FirstChild = new Empty(),
-                SecondChild = new Container
+                SecondChild = new PaddingBox(new RectPadding(20, 20, 20, 20))
                 {
-                    BackgroundColor = detailColor,
-                    Size = WidgetSize.Fixed(detailSize, detailSize),
+                    Child = new UniMobText
+                    {
+                        Value = detailText,
+                        Color = Color.white,
+                        FontSize = 30,
+                        MaxCrossAxisExtent = 600,
+                    },
                 },
             };
         }

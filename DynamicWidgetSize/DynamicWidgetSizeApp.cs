@@ -22,7 +22,7 @@ namespace Samples.DynamicWidgetSize
         {
             return new ScrollGridFlow
             {
-                MaxCrossAxisCount = 1,
+                MaxCrossAxisCount = 2,
                 CrossAxisAlignment = CrossAxisAlignment.Center,
                 Children =
                 {
