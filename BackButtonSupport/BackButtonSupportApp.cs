@@ -18,7 +18,7 @@ namespace Samples.BackButtonSupport
 
         protected override Widget Build(BuildContext context)
         {
-            return new App(_backButtonController);
+            return new AppWidget(_backButtonController);
         }
     }
 }

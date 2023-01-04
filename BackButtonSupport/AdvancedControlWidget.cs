@@ -28,7 +28,7 @@ namespace Samples.BackButtonSupport
             base.InitState();
 
             // Register back button callback
-            Widget.BackButtonController.RegisterHandler(() => HandleBack());
+            Widget.BackButtonController.RegisterHandler(StateLifetime, HandleBack);
 
             _tabController = new TabController(StateLifetime, 2, 0.2f);
             _tabController.AnimateTo(1);
@@ -42,13 +42,15 @@ namespace Samples.BackButtonSupport
                 {
                     new Container
                     {
+                        Size = WidgetSize.Stretched,
                         BackgroundColor = Color.yellow,
-                        Child = DemoUtils.Text("TAB 1", "Press ESC to return"),
+                        Child = DemoUtils.Text(Color.white, "TAB 1", "Press ESC to return"),
                     },
                     new Container
                     {
+                        Size = WidgetSize.Stretched,
                         BackgroundColor = Color.cyan,
-                        Child = DemoUtils.Text("TAB 2", " Press ESC to scroll to first tab"),
+                        Child = DemoUtils.Text(Color.white, "TAB 2", " Press ESC to scroll to first tab"),
                     },
                 },
             };

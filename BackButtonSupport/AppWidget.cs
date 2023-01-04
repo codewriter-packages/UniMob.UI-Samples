@@ -6,19 +6,19 @@ using UnityEngine;
 
 namespace Samples.BackButtonSupport
 {
-    public class App : StatefulWidget
+    public class AppWidget : StatefulWidget
     {
         public BackButtonController BackButtonController { get; }
 
-        public App(BackButtonController backButtonController)
+        public AppWidget(BackButtonController backButtonController)
         {
             BackButtonController = backButtonController;
         }
 
-        public override State CreateState() => new AppState();
+        public override State CreateState() => new AppWidgetState();
     }
 
-    public class AppState : HocState<App>
+    public class AppWidgetState : HocState<AppWidget>
     {
         private readonly GlobalKey<NavigatorState> appNavigatorKey = new GlobalKey<NavigatorState>();
 
@@ -28,7 +28,7 @@ namespace Samples.BackButtonSupport
         {
             base.InitState();
 
-            Widget.BackButtonController.RegisterHandler(() => HandleBack());
+            Widget.BackButtonController.RegisterHandler(StateLifetime, () => HandleBack());
         }
 
         public override Widget Build(BuildContext context)
@@ -42,11 +42,22 @@ namespace Samples.BackButtonSupport
             var handled = AppNavigator.HandleBack();
             if (!handled)
             {
-                // Show quit app dialog
-                AppNavigator.Push(BuildQuitRoute());
+                ShowQuitGameDialog();
             }
 
             return true;
+        }
+
+        private async void ShowQuitGameDialog()
+        {
+            var quit = await AppNavigator.Push<bool>(BuildQuitRoute());
+            if (quit)
+            {
+                Application.Quit();
+#if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+#endif
+            }
         }
 
         private Route BuildMainRoute()
@@ -55,6 +66,7 @@ namespace Samples.BackButtonSupport
                 new RouteSettings("main", RouteModalType.Fullscreen),
                 (context, controller, secondaryAnimation) => new Container
                 {
+                    Size = WidgetSize.Stretched,
                     BackgroundColor = Color.white,
                     Child = new Column
                     {
@@ -63,12 +75,12 @@ namespace Samples.BackButtonSupport
                             new UniMobButton
                             {
                                 OnClick = () => AppNavigator.Push(BuildDetailRoute()),
-                                Child = DemoUtils.Text("Open Details Page >"),
+                                Child = DemoUtils.Text(Color.yellow, "Open Details Page >"),
                             },
                             new UniMobButton
                             {
                                 OnClick = () => AppNavigator.Push(BuildAdvancedControlRoute()),
-                                Child = DemoUtils.Text("Open Complex Flow Page >"),
+                                Child = DemoUtils.Text(Color.yellow, "Open Complex Flow Page >"),
                             },
                         },
                     },
@@ -82,8 +94,9 @@ namespace Samples.BackButtonSupport
                 new RouteSettings("detail", RouteModalType.Fullscreen),
                 (context, controller, secondaryAnimation) => new Container
                 {
+                    Size = WidgetSize.Stretched,
                     BackgroundColor = Color.gray,
-                    Child = DemoUtils.Text("DETAIL PAGE", "Press ESC to return"),
+                    Child = DemoUtils.Text(Color.white, "DETAIL PAGE", "Press ESC to return"),
                 }
             ).WithPopOnBack(AppNavigator); // Basic: Automatically call 'Navigator.Pop()' on back button click
         }
@@ -93,10 +106,16 @@ namespace Samples.BackButtonSupport
             // Advanced: Pass back button control to widget
             return BackButtonController.Create(bbc => new PageRouteBuilder(
                 new RouteSettings("advanced", RouteModalType.Fullscreen),
-                (context, controller, secondaryAnimation) => new AdvancedControlWidget(bbc)
+                (context, animation, secondaryAnimation) => new CompositeTransition
                 {
-                    OnClose = () => AppNavigator.Pop(),
-                }
+                    Opacity = animation,
+                    Child = new AdvancedControlWidget(bbc)
+                    {
+                        OnClose = () => AppNavigator.Pop(),
+                    },
+                },
+                transitionDuration: 0.2f,
+                reverseTransitionDuration: 0.2f
             ));
         }
 
@@ -106,10 +125,27 @@ namespace Samples.BackButtonSupport
                 new RouteSettings("quit", RouteModalType.Fullscreen),
                 (context, controller, secondaryAnimation) => new Container
                 {
+                    Size = WidgetSize.Stretched,
                     BackgroundColor = Color.gray,
-                    Child = DemoUtils.Text("QUIT POPUP", "Do you really want to quit app?", "Press ESC to return"),
+                    Child = new Column
+                    {
+                        CrossAxisAlignment = CrossAxisAlignment.Center,
+                        Children =
+                        {
+                            DemoUtils.Text(Color.white,
+                                "QUIT POPUP",
+                                "Do you really want to quit app?",
+                                "Press ESC to return"),
+
+                            new UniMobButton
+                            {
+                                Child = DemoUtils.Text(Color.red, "QUIT"),
+                                OnClick = () => AppNavigator.Pop(true),
+                            },
+                        },
+                    },
                 }
-            ).WithPopOnBack(AppNavigator);
+            ).WithPopOnBack(AppNavigator, false);
         }
     }
 }
