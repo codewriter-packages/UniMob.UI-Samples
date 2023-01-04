@@ -10,6 +10,7 @@ Samples for [UniMob.UI](https://github.com/codewriter-packages/UniMob.UI) - a de
 * [Todo List](./SimpleTodoList)
 * [Spreadsheet](./SimpleSpreadsheet)
 * [Animation](./Animation)
+* [Animated Switcher](./AnimatedSwitch)
 * [Navigation](./Navigation)
 * [Tabs](./SimpleTabs)
 * [Back Button Support](./BackButtonSupport)
