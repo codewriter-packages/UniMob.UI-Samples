@@ -1,3 +1,4 @@
+using UniMob;
 using UniMob.UI;
 
 namespace Samples.NestedViews
@@ -8,25 +9,16 @@ namespace Samples.NestedViews
 
     public class NestedContainerState : ViewState<NestedContainerWidget>, INestedContainerState
     {
-        private readonly StateHolder<INestedState> _nestedState;
-
         public NestedContainerState(WidgetViewReference view)
         {
             View = view;
-
-            _nestedState = CreateChild<NestedWidget, NestedState>(BuildNested);
         }
 
         public override WidgetViewReference View { get; }
 
-        public INestedState NestedState => _nestedState.Value;
-
-        private NestedWidget BuildNested(BuildContext context)
+        [Atom] public INestedState NestedState => RenderChildT(_ => new NestedWidget
         {
-            return new NestedWidget
-            {
-                Message = "Hello from nested widget"
-            };
-        }
+            Message = "Hello from nested widget"
+        }).As<NestedState>();
     }
 }

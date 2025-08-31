@@ -13,14 +13,12 @@ namespace Samples.SimpleTodoList.Widgets
     public class TodoListState : ViewState<TodoListWidget>, ITodoListState
     {
         private readonly TodoList _todoList;
-        private readonly StateHolder _todosState;
 
         public TodoListState(WidgetViewReference view, TodoList todoList)
         {
             View = view;
 
             _todoList = todoList;
-            _todosState = CreateChild(BuildTodos);
         }
 
         public override WidgetViewReference View { get; }
@@ -30,7 +28,16 @@ namespace Samples.SimpleTodoList.Widgets
         [Atom] public TodoFilterMode FilterMode { get; set; } = TodoFilterMode.All;
         [Atom] public bool CanClearCompletedTodos => _todoList.FinishedTodoCount != 0;
         [Atom] public int TodosLeft => _todoList.UnfinishedTodoCount;
-        [Atom] public IState Todos => _todosState.Value;
+
+        [Atom] public IState Todos => RenderChild(_ => new ScrollList
+        {
+            MainAxisAlignment = MainAxisAlignment.Start,
+            CrossAxisAlignment = CrossAxisAlignment.Center,
+            Children =
+            {
+                _todoList.Todos.Where(IsTodoVisible).Select(BuildTodo)
+            }
+        });
 
         public void AddNewTodo()
         {
@@ -53,19 +60,6 @@ namespace Samples.SimpleTodoList.Widgets
             }
 
             _todoList.RemoveFinishedTodos();
-        }
-
-        private Widget BuildTodos(BuildContext context)
-        {
-            return new ScrollList
-            {
-                MainAxisAlignment = MainAxisAlignment.Start,
-                CrossAxisAlignment = CrossAxisAlignment.Center,
-                Children =
-                {
-                    _todoList.Todos.Where(IsTodoVisible).Select(BuildTodo)
-                }
-            };
         }
 
         private bool IsTodoVisible(Todo todo)
